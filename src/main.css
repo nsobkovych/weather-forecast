@@ -1,0 +1,139 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Nunito, Roboto, sans-serif;
+}
+
+img {
+  filter: invert(99%) sepia(0%) saturate(553%) hue-rotate(32deg)
+    brightness(121%) contrast(100%);
+}
+
+.city {
+  font-weight: 700;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 48;
+}
+
+.w-icon-lg {
+  font-size: 5em;
+}
+
+.w-icon {
+  font-size: 2em;
+}
+
+.card {
+  background: linear-gradient(120deg, #7074e1 0%, #4863b4 100%);
+  border: none;
+  color: #fff;
+}
+
+.card-header-custom {
+  border-bottom: none;
+}
+
+.card-footer-custom {
+  border-top: none;
+}
+
+#q {
+  border-color: #fff;
+}
+
+#search-btn,
+#search-btn:active,
+#search-btn:focus {
+  background-color: transparent;
+  border-color: #fff;
+  color: rgba(255, 255, 255, 1);
+}
+
+#search-btn:focus {
+  box-shadow: none;
+}
+
+#search-btn:hover {
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.w-image img {
+  height: 5em;
+  width: 5em;
+}
+
+.day-image img {
+  height: 2em;
+  width: 2em;
+}
+
+.w-degree {
+  font-weight: 400;
+}
+
+.divider {
+  border-left: solid 1px #fff;
+  display: inline-block;
+  height: 36px;
+  margin: 0 4px;
+}
+
+.btn:focus {
+  outline: none;
+  box-shadow: none !important;
+}
+
+.btn-degree,
+.btn-degree:active,
+.btn-degree:focus {
+  color: rgba(255, 255, 255, 1);
+  display: inline-block;
+  padding: 6px;
+  text-decoration: none;
+}
+
+.btn-degree:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.btn-celsius,
+.btn-fahrenheit {
+  font-weight: 200;
+}
+
+.btn-active {
+  font-weight: 600;
+}
+
+.w-details {
+  text-align: start;
+}
+
+.badge-custom {
+  font-weight: 600;
+  font-size: 0.8em;
+}
+
+.badge-custom:first-child {
+  padding-left: 0;
+}
+
+.badge-custom img {
+  height: 1.1em;
+  width: 1.1em;
+}
+
+.badge-icon {
+  font-size: 1em;
+}
+
+.day-image {
+  margin: 8px 0;
+}
