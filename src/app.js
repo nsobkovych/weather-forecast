@@ -82,6 +82,38 @@ function displayWeatherDescription(description) {
   weatherType.innerHTML = description;
 }
 
+function setWeatherIcon(icon) {
+  let icons = {
+    "01d": "01d_clear_day_FILL0_wght400_GRAD0_opsz48.svg",
+    "02d": "02d_partly_cloudy_day_FILL0_wght400_GRAD0_opsz48.svg",
+    "03d": "03d_cloudy_FILL0_wght400_GRAD0_opsz48.svg",
+    "04d": "04d_filter_drama_FILL0_wght400_GRAD0_opsz48.svg",
+    "09d": "09d_rainy_FILL0_wght400_GRAD0_opsz48.svg",
+    "10d": "09d_rainy_FILL0_wght400_GRAD0_opsz48.svg",
+    "11d": "11d_thunderstorm_FILL0_wght400_GRAD0_opsz48.svg",
+    "13d": "13d_cloudy_snowing_FILL0_wght400_GRAD0_opsz48.svg",
+    "50d": "50d_foggy_FILL0_wght400_GRAD0_opsz48.svg",
+    "01n": "01n_clear_night_FILL0_wght400_GRAD0_opsz48.svg",
+    "02n": "02n_partly_cloudy_night_FILL0_wght400_GRAD0_opsz48.svg",
+    "03n": "03d_cloudy_FILL0_wght400_GRAD0_opsz48.svg",
+    "04n": "04d_filter_drama_FILL0_wght400_GRAD0_opsz48.svg",
+    "09n": "09d_rainy_FILL0_wght400_GRAD0_opsz48.svg",
+    "10n": "09d_rainy_FILL0_wght400_GRAD0_opsz48.svg",
+    "11n": "11d_thunderstorm_FILL0_wght400_GRAD0_opsz48.svg",
+    "13n": "13d_cloudy_snowing_FILL0_wght400_GRAD0_opsz48.svg",
+    "50n": "50d_foggy_FILL0_wght400_GRAD0_opsz48.svg",
+  };
+
+  return icons[icon];
+}
+
+function displayWeatherIcon(icon, description) {
+  let weatherIcon = document.querySelector(".w-image img");
+  let iconSrc = setWeatherIcon(icon);
+  weatherIcon.setAttribute("alt", description);
+  weatherIcon.setAttribute("src", `img/${iconSrc}`);
+}
+
 let displayData = function (data) {
   let cityName = data.name;
   let country = data.sys.country;
@@ -89,7 +121,9 @@ let displayData = function (data) {
   let humidity = data.main.humidity;
   let windSpeed = data.wind.speed;
   let clouds = data.clouds.all;
-  let description = data.weather[0].main;
+  let mainDescription = data.weather[0].main;
+  let description = data.weather[0].description;
+  let icon = data.weather[0].icon;
 
   displayCityName(cityName, country);
   displayTemperature(temp);
@@ -97,6 +131,7 @@ let displayData = function (data) {
   displayHumidity(humidity);
   displayClouds(clouds);
   displayWeatherDescription(description);
+  displayWeatherIcon(icon, mainDescription);
 };
 
 // Section "Search Engine"

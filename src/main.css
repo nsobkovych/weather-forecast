@@ -29,6 +29,14 @@ img {
   font-size: 2em;
 }
 
+.w-type {
+  display: inline-block;
+}
+
+.w-type::first-letter {
+  text-transform: uppercase;
+}
+
 .card {
   background: linear-gradient(120deg, #7074e1 0%, #4863b4 100%);
   border: none;
