@@ -8,7 +8,14 @@ function formatTime(hours, minutes) {
   return `${hours}:${minutes}`;
 }
 
-function displayCurrentTime() {
+// Section "Display Current Weather Data"
+
+function displayCityName(cityName, country) {
+  let cityElem = document.querySelector(".city");
+  cityElem.innerHTML = `${cityName}, ${country}`;
+}
+
+function displayDate(timestamp) {
   let days = [
     "Sunday",
     "Monday",
@@ -34,25 +41,18 @@ function displayCurrentTime() {
     "December",
   ];
 
-  let currentTime = new Date();
-  let currentDay = days[currentTime.getDay()];
-  let currentMonth = months[currentTime.getMonth()];
-  let currentDate = currentTime.getDate();
-  let currentHours = currentTime.getHours();
-  let currentMinutes = currentTime.getMinutes();
+  let date = new Date(timestamp * 1000);
+  let currentDay = days[date.getDay()];
+  let currentMonth = months[date.getMonth()];
+  let currentDate = date.getDate();
+  let currentHours = date.getHours();
+  let currentMinutes = date.getMinutes();
 
   let dateElem = document.querySelector(".date");
   let timeElem = document.querySelector(".time");
 
   dateElem.innerHTML = `${currentDay}, ${currentDate} ${currentMonth}`;
   timeElem.innerHTML = formatTime(currentHours, currentMinutes);
-}
-
-// Section "Display Current Weather Data"
-
-function displayCityName(cityName, country) {
-  let cityElem = document.querySelector(".city");
-  cityElem.innerHTML = `${cityName}, ${country}`;
 }
 
 function displayTemperature(temp) {
@@ -117,6 +117,7 @@ function displayWeatherIcon(icon, description) {
 let displayData = function (data) {
   let cityName = data.name;
   let country = data.sys.country;
+  let timestamp = data.dt;
   let temp = data.main.temp;
   let humidity = data.main.humidity;
   let windSpeed = data.wind.speed;
@@ -126,6 +127,7 @@ let displayData = function (data) {
   let icon = data.weather[0].icon;
 
   displayCityName(cityName, country);
+  displayDate(timestamp);
   displayTemperature(temp);
   displayWind(windSpeed);
   displayHumidity(humidity);
@@ -278,7 +280,7 @@ function showCurrentLocationWeather() {
 
 function init() {
   showCurrentLocationWeather();
-  displayCurrentTime();
+  // displayCurrentTime();
 }
 
 init();
