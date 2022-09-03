@@ -1,14 +1,12 @@
 const apiKey = "5ca7191e7c223ac438b06699f46c25b5";
 
-// Section "Display Current Time"
+// Section "Display Weather Data"
 
 function formatTime(hours, minutes) {
   if (hours < 10) hours = `0${hours}`;
   if (minutes < 10) minutes = `0${minutes}`;
   return `${hours}:${minutes}`;
 }
-
-// Section "Display Current Weather Data"
 
 function displayCityName(cityName, country) {
   let cityElem = document.querySelector(".city");
@@ -56,9 +54,7 @@ function displayDate(timestamp) {
 }
 
 function displayTemperature(temp) {
-  let currentTemp = Math.round(temp);
-  let degreeElem = document.querySelector(".w-degree");
-  degreeElem.innerHTML = currentTemp;
+  degreeElem.innerHTML = temp;
 }
 
 function displayWind(speed) {
@@ -118,7 +114,7 @@ let displayData = function (data) {
   let cityName = data.name;
   let country = data.sys.country;
   let timestamp = data.dt;
-  let temp = data.main.temp;
+  tempCels = Math.round(data.main.temp);
   let humidity = data.main.humidity;
   let windSpeed = data.wind.speed;
   let clouds = data.clouds.all;
@@ -128,7 +124,7 @@ let displayData = function (data) {
 
   displayCityName(cityName, country);
   displayDate(timestamp);
-  displayTemperature(temp);
+  displayTemperature(tempCels);
   displayWind(windSpeed);
   displayHumidity(humidity);
   displayClouds(clouds);
@@ -204,8 +200,12 @@ searchCityForm.addEventListener("submit", searchCityWeather);
 // Section "Choose scale"
 
 function switchTempScale(ev) {
+  ev.preventDefault();
+
   let isCels = this.classList.contains("btn-celsius");
   let isActive = this.classList.contains("btn-active");
+
+  let tempFahr = Math.round(tempCels * 1.8 + 32);
 
   if (isCels) {
     degreeElem.innerHTML = tempCels;
@@ -221,15 +221,12 @@ function switchTempScale(ev) {
   }
 }
 
-let tempCels = 30;
-let tempFahr = Math.round(tempCels * 1.8 + 32);
+let tempCels = null;
 
 let btnCelsius = document.querySelector(".btn-celsius");
 let btnFahrenheit = document.querySelector(".btn-fahrenheit");
 
 let degreeElem = document.querySelector(".w-degree");
-
-degreeElem.innerHTML = tempCels;
 
 btnCelsius.addEventListener("click", switchTempScale);
 btnFahrenheit.addEventListener("click", switchTempScale);
@@ -278,9 +275,10 @@ function showCurrentLocationWeather() {
   navigator.geolocation.getCurrentPosition(showPosition, showDefaultData);
 }
 
+// Init Weather Application
+
 function init() {
   showCurrentLocationWeather();
-  // displayCurrentTime();
 }
 
 init();
