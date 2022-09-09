@@ -13,42 +13,14 @@ img {
     brightness(121%) contrast(100%);
 }
 
-.city {
-  font-weight: 700;
-}
-
-.material-symbols-outlined {
-  font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 48;
-}
-
-.w-icon-lg {
-  font-size: 5em;
-}
-
-.w-icon {
-  font-size: 2em;
-}
-
-.w-type {
-  display: inline-block;
-}
-
-.w-type::first-letter {
-  text-transform: uppercase;
-}
-
-.card {
+.w-wrapper {
   background: linear-gradient(120deg, #7074e1 0%, #4863b4 100%);
   border: none;
   color: #fff;
 }
 
-.card-header-custom {
+.w-search-section {
   border-bottom: none;
-}
-
-.card-footer-custom {
-  border-top: none;
 }
 
 #q {
@@ -72,14 +44,17 @@ img {
   color: rgba(255, 255, 255, 0.8);
 }
 
+.city {
+  font-weight: 700;
+}
+
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 500, "GRAD" 0, "opsz" 48;
+}
+
 .w-image img {
   height: 5em;
   width: 5em;
-}
-
-.day-image img {
-  height: 2em;
-  width: 2em;
 }
 
 .w-degree {
@@ -120,6 +95,14 @@ img {
   font-weight: 600;
 }
 
+.w-type {
+  display: inline-block;
+}
+
+.w-type::first-letter {
+  text-transform: uppercase;
+}
+
 .w-details {
   text-align: start;
 }
@@ -142,6 +125,15 @@ img {
   font-size: 1em;
 }
 
-.day-image {
+.w-forecast {
+  border-top: none;
+}
+
+.w-forecast-image {
   margin: 8px 0;
+}
+
+.w-forecast-image img {
+  height: 2em;
+  width: 2em;
 }
