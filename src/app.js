@@ -202,7 +202,42 @@ searchCityForm.addEventListener("submit", searchCityWeather);
 // Section "Weather Forecast"
 
 function renderForecast(forecastList) {
-  console.log(forecastList);
+  let startIndex = 0;
+  let endIndex = forecastList.length - 1;
+  let forecastElem = document.querySelector(".w-forecast");
+  let forecastHTML = `<div class="row">`;
+
+  if (forecastList[0].samplesCounter <= 2) {
+    startIndex = 1;
+    endIndex = forecastList.length;
+  }
+
+  for (let i = startIndex; i < endIndex; i++) {
+    let iconSrc = setWeatherIcon(forecastList[i].icon);
+
+    forecastHTML =
+      forecastHTML +
+      `<div class="col">
+        <div class="w-forecast-day">${forecastList[i].weekDay}</div>
+        <div class="w-forecast-image">
+          <img
+            src="img/${iconSrc}"
+            alt="${forecastList[i].description}"
+          />
+        </div>
+        <div class="w-forecast-temperature">
+          <span class="w-forecast-temperature-max">${Math.round(
+            forecastList[i].maxTemp
+          )}°</span> 
+          <span class="w-forecast-temperature-min">${Math.round(
+            forecastList[i].minTemp
+          )}°</span>
+        </div>
+      </div>`;
+  }
+
+  forecastHTML = forecastHTML + "</div>";
+  forecastElem.innerHTML = forecastHTML;
 }
 
 function displayForecast(data) {
@@ -222,6 +257,7 @@ function displayForecast(data) {
       3
     ),
     icon: data.list[0].weather[0].icon,
+    description: data.list[0].weather[0].main,
     maxTemp: data.list[0].main.temp_max,
     minTemp: data.list[0].main.temp_min,
     samplesCounter: 0,
@@ -253,6 +289,7 @@ function displayForecast(data) {
       forecastDays[index] = {
         weekDay: date.toString().substring(0, 3),
         icon: forecastData.weather[0].icon,
+        description: forecastData.weather[0].main,
         maxTemp: forecastData.main.temp_max,
         minTemp: forecastData.main.temp_min,
         samplesCounter: 1,

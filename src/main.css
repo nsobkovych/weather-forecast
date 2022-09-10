@@ -137,3 +137,20 @@ img {
   height: 2em;
   width: 2em;
 }
+
+.w-forecast-temperature {
+  font-size: 0.8em;
+}
+
+.w-forecast-temperature span {
+  display: inline-block;
+}
+
+.w-forecast-temperature-max {
+  font-weight: 600;
+  padding-right: 0.3em;
+}
+
+.w-forecast-temperature-min {
+  font-weight: 200;
+}
