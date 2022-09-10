@@ -121,6 +121,7 @@ let displayData = function (data) {
   let mainDescription = data.weather[0].main;
   let description = data.weather[0].description;
   let icon = data.weather[0].icon;
+  let coords = data.coord;
 
   displayCityName(cityName, country);
   displayDate(timestamp);
@@ -130,6 +131,7 @@ let displayData = function (data) {
   displayClouds(clouds);
   displayWeatherDescription(description);
   displayWeatherIcon(icon, mainDescription);
+  getForecast(coords);
 };
 
 // Section "Search Engine"
@@ -197,7 +199,101 @@ let searchCityForm = document.forms["search-city-form"];
 
 searchCityForm.addEventListener("submit", searchCityWeather);
 
-// Section "Choose scale"
+// Section "Weather Forecast"
+
+function renderForecast(forecastList) {
+  console.log(forecastList);
+}
+
+function displayForecast(data) {
+  function extractCurrentDate(listItem) {
+    return listItem.dt_txt.split(" ", 1)[0];
+  }
+
+  function extractTime(listItem) {
+    return listItem.dt_txt.split(" ")[1].split(":", 1)[0];
+  }
+
+  let forecastDays = [];
+
+  forecastDays[0] = {
+    weekDay: Date((data.list[0].dt - data.city.timezone) * 1000).substring(
+      0,
+      3
+    ),
+    icon: data.list[0].weather[0].icon,
+    maxTemp: data.list[0].main.temp_max,
+    minTemp: data.list[0].main.temp_min,
+    samplesCounter: 0,
+  };
+
+  let currentDate = extractCurrentDate(data.list[0]);
+  let index = 0;
+
+  data.list.forEach((forecastData) => {
+    if (extractTime(forecastData) == "12") {
+      forecastDays[index].icon = forecastData.weather[0].icon;
+    }
+
+    if (currentDate == extractCurrentDate(forecastData)) {
+      forecastDays[index].samplesCounter++;
+
+      if (forecastDays[index].maxTemp < forecastData.main.temp_max) {
+        forecastDays[index].maxTemp = forecastData.main.temp_max;
+      }
+      if (forecastDays[index].minTemp > forecastData.main.temp_min) {
+        forecastDays[index].minTemp = forecastData.main.temp_min;
+      }
+    } else {
+      let date = new Date((forecastData.dt - data.city.timezone) * 1000);
+
+      currentDate = extractCurrentDate(forecastData);
+      index++;
+
+      forecastDays[index] = {
+        weekDay: date.toString().substring(0, 3),
+        icon: forecastData.weather[0].icon,
+        maxTemp: forecastData.main.temp_max,
+        minTemp: forecastData.main.temp_min,
+        samplesCounter: 1,
+      };
+    }
+  });
+
+  renderForecast(forecastDays);
+}
+
+function getForecast(coords) {
+  let forecastApiUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${coords.lat}&lon=${coords.lon}&units=metric`;
+
+  axios
+    .get(`${forecastApiUrl}&appid=${apiKey}`)
+    .then(function (response) {
+      displayForecast(response.data);
+    })
+    .catch(function (error) {
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.log(error.response);
+        // console.log(error.response.data);
+        // console.log(error.response.status);
+        // console.log(error.response.headers);
+        alert(error.response.data.message);
+      } else if (error.request) {
+        // The request was made but no response was received
+        // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+        // http.ClientRequest in node.js
+        console.log(error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.log("Error", error.message);
+      }
+      // console.log(error.config);
+    });
+}
+
+// Section "Choose Scale"
 
 function switchTempScale(ev) {
   ev.preventDefault();
