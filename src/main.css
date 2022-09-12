@@ -13,6 +13,14 @@ img {
     brightness(121%) contrast(100%);
 }
 
+a {
+  color: #646fd3;
+}
+
+a:hover {
+  color: #4863b4;
+}
+
 .w-wrapper {
   background: linear-gradient(120deg, #7074e1 0%, #4863b4 100%);
   border: none;
