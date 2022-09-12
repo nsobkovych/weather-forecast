@@ -54,7 +54,11 @@ function displayDate(timestamp) {
 }
 
 function displayTemperature(temp) {
-  degreeElem.innerHTML = temp;
+  if (isCels) {
+    degreeElem.innerHTML = temp;
+  } else {
+    degreeElem.innerHTML = Math.round(temp * 1.8 + 32);
+  }
 }
 
 function displayWind(speed) {
@@ -201,37 +205,42 @@ searchCityForm.addEventListener("submit", searchCityWeather);
 
 // Section "Weather Forecast"
 
-function renderForecast(forecastList) {
+function renderForecast() {
   let startIndex = 0;
-  let endIndex = forecastList.length - 1;
+  let endIndex =
+    forecastDays.length > 5 ? forecastDays.length - 1 : forecastDays.length;
   let forecastElem = document.querySelector(".w-forecast");
   let forecastHTML = `<div class="row">`;
 
-  if (forecastList[0].samplesCounter <= 2) {
+  if (forecastDays[0].samplesCounter <= 2) {
     startIndex = 1;
-    endIndex = forecastList.length;
+    endIndex = forecastDays.length;
   }
 
   for (let i = startIndex; i < endIndex; i++) {
-    let iconSrc = setWeatherIcon(forecastList[i].icon);
+    let iconSrc = setWeatherIcon(forecastDays[i].icon);
+
+    let maxTemp = isCels
+      ? Math.round(forecastDays[i].maxTemp)
+      : Math.round(forecastDays[i].maxTemp * 1.8 + 32);
+
+    let minTemp = isCels
+      ? Math.round(forecastDays[i].minTemp)
+      : Math.round(forecastDays[i].minTemp * 1.8 + 32);
 
     forecastHTML =
       forecastHTML +
       `<div class="col">
-        <div class="w-forecast-day">${forecastList[i].weekDay}</div>
+        <div class="w-forecast-day">${forecastDays[i].weekDay}</div>
         <div class="w-forecast-image">
           <img
             src="img/${iconSrc}"
-            alt="${forecastList[i].description}"
+            alt="${forecastDays[i].description}"
           />
         </div>
         <div class="w-forecast-temperature">
-          <span class="w-forecast-temperature-max">${Math.round(
-            forecastList[i].maxTemp
-          )}°</span> 
-          <span class="w-forecast-temperature-min">${Math.round(
-            forecastList[i].minTemp
-          )}°</span>
+          <span class="w-forecast-temperature-max">${maxTemp}°</span> 
+          <span class="w-forecast-temperature-min">${minTemp}°</span>
         </div>
       </div>`;
   }
@@ -248,8 +257,6 @@ function displayForecast(data) {
   function extractTime(listItem) {
     return listItem.dt_txt.split(" ")[1].split(":", 1)[0];
   }
-
-  let forecastDays = [];
 
   forecastDays[0] = {
     weekDay: Date((data.list[0].dt - data.city.timezone) * 1000).substring(
@@ -297,7 +304,7 @@ function displayForecast(data) {
     }
   });
 
-  renderForecast(forecastDays);
+  renderForecast();
 }
 
 function getForecast(coords) {
@@ -335,26 +342,29 @@ function getForecast(coords) {
 function switchTempScale(ev) {
   ev.preventDefault();
 
-  let isCels = this.classList.contains("btn-celsius");
+  isCels = this.classList.contains("btn-celsius");
   let isActive = this.classList.contains("btn-active");
-
   let tempFahr = Math.round(tempCels * 1.8 + 32);
 
   if (isCels) {
     degreeElem.innerHTML = tempCels;
     btnFahrenheit.classList.remove("btn-active");
+    renderForecast();
 
     if (!isActive) {
       btnCelsius.classList.add("btn-active");
     }
   } else {
     degreeElem.innerHTML = tempFahr;
+    renderForecast();
     this.classList.toggle("btn-active");
     btnCelsius.classList.remove("btn-active");
   }
 }
 
 let tempCels = null;
+let isCels = true;
+let forecastDays = [];
 
 let btnCelsius = document.querySelector(".btn-celsius");
 let btnFahrenheit = document.querySelector(".btn-fahrenheit");
