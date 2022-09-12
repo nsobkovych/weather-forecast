@@ -52,6 +52,10 @@ a:hover {
   color: rgba(255, 255, 255, 0.8);
 }
 
+.form-control:focus {
+  box-shadow: none;
+}
+
 .city {
   font-weight: 700;
 }
@@ -161,4 +165,13 @@ a:hover {
 
 .w-forecast-temperature-min {
   font-weight: 200;
+}
+
+@media (max-width: 575.98px) {
+  .w-forecast-temperature {
+    font-size: 12px;
+  }
+  .w-forecast-temperature-max {
+    padding-right: 0;
+  }
 }
